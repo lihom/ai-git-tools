@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Arguments passed by Git
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=$2
+
+# Only run if the user hasn't provided a message via -m or -f
+if [ -z "$COMMIT_SOURCE" ]; then
+    # Find the physical directory where this hook script is located
+    FILE_PATH="$0"
+    while [ -L "$FILE_PATH" ]; do
+        FILE_DIR=$(cd -P "$(dirname "$FILE_PATH")" && pwd)
+        FILE_PATH=$(readlink "$FILE_PATH")
+        [[ $FILE_PATH != /* ]] && FILE_PATH="$FILE_DIR/$FILE_PATH"
+    done
+    HOOK_REAL_DIR=$(cd -P "$(dirname "$FILE_PATH")" && pwd)
+
+    # Target script in the sibling directory
+    SCRIPT_PATH="$(dirname "$HOOK_REAL_DIR")/scripts/ai_commit.sh"
+
+    if [ ! -f "$SCRIPT_PATH" ]; then
+        echo "❌ Error: AI commit script not found at $SCRIPT_PATH"
+        exit 1
+    fi
+
+    bash "$SCRIPT_PATH" --non-interactive --output "$COMMIT_MSG_FILE"
+fi
