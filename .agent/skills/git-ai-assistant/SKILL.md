@@ -15,8 +15,8 @@ This skill provides a set of AI prompts and logic to assist with Git operations,
 ## Resources
 
 Prompts are located in `resources/prompts/`:
-- `review-v1.md`, `review-v2.md`, `review-v3.md`: Different versions of code review prompts.
-- `commit-v1.md`, `commit-v2.md`: Different versions of commit message prompts.
+- `review-*.md`: Various code review styles (e.g., concise, comprehensive, structured).
+- `commit-*.md`: Different types of commit message prompts (e.g., basic, detailed).
 
 ## How to use
 

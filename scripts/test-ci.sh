@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-# test_ci.sh: Automated CI verification for ai-git-tools
+# test-ci.sh: Automated CI verification for ai-git-tools
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -46,20 +46,20 @@ done
 echo "✅ Setup and Hook Linking OK."
 
 # 3. Test Review Script (Dry Run)
-echo "🤖 Testing ai_review.sh (Dry Run)..."
+echo "🤖 Testing ai-review.sh (Dry Run)..."
 for engine in gemini ollama codex; do
     echo "   Testing engine: $engine"
-    bash "$SCRIPT_DIR/ai_review.sh" --engine "$engine" --dry-run --non-interactive > /dev/null
+    bash "$SCRIPT_DIR/ai-review.sh" --engine "$engine" --dry-run --non-interactive > /dev/null
 done
-echo "✅ ai_review.sh Dry Runs OK."
+echo "✅ ai-review.sh Dry Runs OK."
 
 # 4. Test Commit Script (Dry Run)
-echo "✍️ Testing ai_commit.sh (Dry Run)..."
+echo "✍️ Testing ai-commit.sh (Dry Run)..."
 for engine in gemini ollama codex; do
     echo "   Testing engine: $engine"
-    bash "$SCRIPT_DIR/ai_commit.sh" --engine "$engine" --dry-run --non-interactive > /dev/null
+    bash "$SCRIPT_DIR/ai-commit.sh" --engine "$engine" --dry-run --non-interactive > /dev/null
 done
-echo "✅ ai_commit.sh Dry Runs OK."
+echo "✅ ai-commit.sh Dry Runs OK."
 
 echo ""
 echo "🎉 All CI Tests Passed!"

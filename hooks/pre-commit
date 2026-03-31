@@ -10,7 +10,7 @@ done
 HOOK_REAL_DIR=$(cd -P "$(dirname "$FILE_PATH")" && pwd)
 
 # Target script in the sibling directory
-SCRIPT_PATH="$(dirname "$HOOK_REAL_DIR")/scripts/ai_review.sh"
+SCRIPT_PATH="$(dirname "$HOOK_REAL_DIR")/scripts/ai-review.sh"
 
 if [ ! -f "$SCRIPT_PATH" ]; then
     echo "❌ Error: AI review script not found at $SCRIPT_PATH"

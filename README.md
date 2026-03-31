@@ -63,8 +63,8 @@ If the review passes, your text editor will open with a pre-filled commit messag
 You can run the review or commit script manually at any time:
 
 ```bash
-sh ./scripts/ai_review.sh --engine codex
-sh ./scripts/ai_commit.sh --engine ollama
+sh ./scripts/ai-review.sh --engine codex
+sh ./scripts/ai-commit.sh --engine ollama
 ```
 
 ---

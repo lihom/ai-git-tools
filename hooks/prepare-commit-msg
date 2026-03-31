@@ -16,7 +16,7 @@ if [ -z "$COMMIT_SOURCE" ]; then
     HOOK_REAL_DIR=$(cd -P "$(dirname "$FILE_PATH")" && pwd)
 
     # Target script in the sibling directory
-    SCRIPT_PATH="$(dirname "$HOOK_REAL_DIR")/scripts/ai_commit.sh"
+    SCRIPT_PATH="$(dirname "$HOOK_REAL_DIR")/scripts/ai-commit.sh"
 
     if [ ! -f "$SCRIPT_PATH" ]; then
         echo "❌ Error: AI commit script not found at $SCRIPT_PATH"
