@@ -41,6 +41,9 @@ get_default_model() {
         codex)
             echo "${CODEX_MODEL:-gpt-4o}"
             ;;
+        copilot)
+            echo "${COPILOT_MODEL:-claude-3.5-sonnet}"
+            ;;
         *)
             echo "${GEMINI_MODEL:-gemini-3-flash-preview}"
             ;;
@@ -128,7 +131,7 @@ confirm_cloud_engine() {
 
 # Centralized git diff retrieval
 get_git_diff() {
-    git diff "$@" $EXCLUDE_PATTERN
+    git diff $@ $EXCLUDE_PATTERN
 }
 
 # Abstraction for calling different AI engines
@@ -160,6 +163,14 @@ call_ai_engine() {
             fi
             # Use codex exec for non-interactive execution
             codex exec < "$prompt_file"
+            ;;
+        copilot)
+            if ! command -v copilot >/dev/null 2>&1; then
+                echo "❌ Error: 'copilot' CLI not found in PATH."
+                exit 1
+            fi
+            # Use copilot prompt for non-interactive execution
+            copilot --model "$model" -p "$(cat "$prompt_file")"
             ;;
     esac
 }
