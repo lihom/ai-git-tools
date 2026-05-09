@@ -1,6 +1,6 @@
 # AI Git Tools: Unified AI-Powered Git Hooks
 
-**AI Git Tools** brings the power of Large Language Models (LLMs) directly into your local development workflow. It simplifies the AI-powered git hook experience by supporting multiple AI engines, including **Gemini**, **Ollama**, and **Codex**.
+**AI Git Tools** brings the power of Large Language Models (LLMs) directly into your local development workflow. It simplifies the AI-powered git hook experience by supporting multiple AI engines, including **Gemini**, **Ollama**, **Codex**, **Claude**, and **Cursor**.
 
 ---
 
@@ -8,7 +8,7 @@
 
 * **AI Code Review (`pre-commit`):** Automatically analyzes your staged changes for bugs, security risks, and code smells before you commit.
 * **Auto-Commit Messages (`prepare-commit-msg`):** Drafts high-quality, Conventional Commit messages based on your `git diff`.
-* **Multi-Engine Support:** Choose between Gemini, Ollama, or Codex.
+* **Multi-Engine Support:** Choose between Gemini, Ollama, Codex, Claude, or Cursor.
 * **Privacy First:** Everything runs locally (or via your preferred AI provider).
 * **Human-in-the-Loop:** The AI suggests, but you always have the final say.
 
@@ -21,6 +21,8 @@ Install your preferred AI engine CLI:
 * **Gemini:** `npm install -g @google/gemini-cli`
 * **Ollama:** [Download Ollama](https://ollama.com/)
 * **Codex:** Already installed? (Uses `@openai/codex`)
+* **Claude:** Ensure the `claude` CLI is installed and accessible in your PATH.
+* **Cursor:** Ensure the `cursor-agent` CLI is installed and accessible in your PATH.
 
 ### 2. Installation
 Run the setup script from the root of your project:
@@ -35,10 +37,12 @@ Create a `.env` file in your project root to configure the AI engine, models, an
 
 ```env
 # .env
-AI_ENGINE=gemini  # options: gemini, ollama, codex
+AI_ENGINE=gemini  # options: gemini, ollama, codex, claude, cursor
 GEMINI_MODEL=gemini-3-flash-preview
 OLLAMA_MODEL=gemma3
 CODEX_MODEL=gpt-4o
+CLAUDE_MODEL=haiku
+CURSOR_MODEL=auto
 
 # Optional: Override default prompt templates (Absolute path or relative to project root)
 # REVIEW_PROMPT_PATH=/path/to/custom-review.md
@@ -63,8 +67,8 @@ If the review passes, your text editor will open with a pre-filled commit messag
 You can run the review or commit script manually at any time:
 
 ```bash
-sh ./scripts/ai-review.sh --engine codex
-sh ./scripts/ai-commit.sh --engine ollama
+sh ./scripts/ai-review.sh --engine claude --model sonnet
+sh ./scripts/ai-commit.sh --engine codex --model gpt-4o
 ```
 
 ---

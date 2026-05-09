@@ -41,6 +41,12 @@ get_default_model() {
         codex)
             echo "${CODEX_MODEL:-gpt-4o}"
             ;;
+        claude)
+            echo "${CLAUDE_MODEL:-haiku}"
+            ;;
+        cursor)
+            echo "${CURSOR_MODEL:-auto}"
+            ;;
         *)
             echo "${GEMINI_MODEL:-gemini-3-flash-preview}"
             ;;
@@ -98,7 +104,7 @@ confirm_cloud_engine() {
     local engine="$1"
     local config_file="$HOME/.ai-git-tools-confirmed"
 
-    if [[ "$engine" == "gemini" || "$engine" == "codex" ]]; then
+    if [[ "$engine" == "gemini" || "$engine" == "codex" || "$engine" == "claude" || "$engine" == "cursor" ]]; then
         if [ ! -f "$config_file" ]; then
             echo ""
             echo "🛡️  DATA PRIVACY NOTICE"
@@ -141,25 +147,39 @@ call_ai_engine() {
     case "$engine" in
         gemini) 
             if ! command -v gemini >/dev/null 2>&1; then
-                echo "❌ Error: 'gemini' CLI not found. Please install it with 'npm install -g @google/gemini-cli'"
+                echo "❌ Error: 'gemini' CLI not found. Please install it with 'npm install -g @google/gemini-cli'" >&2
                 exit 1
             fi
             gemini -m "$model" < "$prompt_file"
             ;;
         ollama)
             if ! command -v ollama >/dev/null 2>&1; then
-                echo "❌ Error: 'ollama' CLI not found. Please download and install it from https://ollama.com/"
+                echo "❌ Error: 'ollama' CLI not found. Please download and install it from https://ollama.com/" >&2
                 exit 1
             fi
             ollama run "$model" < "$prompt_file"
             ;;
         codex)
             if ! command -v codex >/dev/null 2>&1; then
-                echo "❌ Error: 'codex' CLI not found in PATH."
+                echo "❌ Error: 'codex' CLI not found in PATH." >&2
                 exit 1
             fi
             # Use codex exec for non-interactive execution
             codex exec < "$prompt_file"
+            ;;
+        claude)
+            if ! command -v claude >/dev/null 2>&1; then
+                echo "❌ Error: 'claude' CLI not found in PATH." >&2
+                exit 1
+            fi
+            claude --model "$model" -p "$(cat "$prompt_file")"
+            ;;
+        cursor)
+            if ! command -v cursor-agent >/dev/null 2>&1; then
+                echo "❌ Error: 'cursor-agent' CLI not found in PATH." >&2
+                exit 1
+            fi
+            cursor-agent "$(cat "$prompt_file")" --model "$model" --trust
             ;;
     esac
 }
