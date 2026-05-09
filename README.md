@@ -1,6 +1,6 @@
 # AI Git Tools: Unified AI-Powered Git Hooks
 
-**AI Git Tools** brings the power of Large Language Models (LLMs) directly into your local development workflow. It simplifies the AI-powered git hook experience by supporting multiple AI engines, including **Gemini**, **Ollama**, **Codex**, **Claude**, and **Cursor**.
+**AI Git Tools** brings the power of Large Language Models (LLMs) directly into your local development workflow. It simplifies the AI-powered git hook experience by supporting multiple AI engines, including **Ollama**, **Gemini**, **Codex**, **Copilot**, **Claude**, **Cursor**.
 
 ---
 
@@ -8,7 +8,7 @@
 
 * **AI Code Review (`pre-commit`):** Automatically analyzes your staged changes for bugs, security risks, and code smells before you commit.
 * **Auto-Commit Messages (`prepare-commit-msg`):** Drafts high-quality, Conventional Commit messages based on your `git diff`.
-* **Multi-Engine Support:** Choose between Gemini, Ollama, Codex, Claude, or Cursor.
+* **Multi-Engine Support:** Choose between Ollama, Gemini, Codex, Copilot, Claude, Cursor.
 * **Privacy First:** Everything runs locally (or via your preferred AI provider).
 * **Human-in-the-Loop:** The AI suggests, but you always have the final say.
 
@@ -18,9 +18,10 @@
 
 ### 1. Prerequisites
 Install your preferred AI engine CLI:
-* **Gemini:** `npm install -g @google/gemini-cli`
 * **Ollama:** [Download Ollama](https://ollama.com/)
-* **Codex:** Already installed? (Uses `@openai/codex`)
+* **Gemini:** `npm install -g @google/gemini-cli`
+* **Codex:** `npm install -g @openai/codex`
+* **Copilot:** `npm install -g @github/copilot`
 * **Claude:** Ensure the `claude` CLI is installed and accessible in your PATH.
 * **Cursor:** Ensure the `cursor-agent` CLI is installed and accessible in your PATH.
 
@@ -37,10 +38,11 @@ Create a `.env` file in your project root to configure the AI engine, models, an
 
 ```env
 # .env
-AI_ENGINE=gemini  # options: gemini, ollama, codex, claude, cursor
+AI_ENGINE=ollama  # options: ollama, gemini, codex, copilot, claude, cursor
+OLLAMA_MODEL=gemma4
 GEMINI_MODEL=gemini-3-flash-preview
-OLLAMA_MODEL=gemma3
-CODEX_MODEL=gpt-4o
+CODEX_MODEL=gpt-5.3-codex
+COPILOT_MODEL=claude-haiku-4.5
 CLAUDE_MODEL=haiku
 CURSOR_MODEL=auto
 

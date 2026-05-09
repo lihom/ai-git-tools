@@ -32,14 +32,17 @@ fi
 get_default_model() {
     local engine="$1"
     case "$engine" in
-        gemini)
-            echo "${GEMINI_MODEL:-gemini-3-flash-preview}"
-            ;;
         ollama)
             echo "${OLLAMA_MODEL:-gemma3}"
             ;;
+        gemini)
+            echo "${GEMINI_MODEL:-gemini-3-flash-preview}"
+            ;;
         codex)
             echo "${CODEX_MODEL:-gpt-4o}"
+            ;;
+        copilot)
+            echo "${COPILOT_MODEL:-claude-3.5-sonnet}"
             ;;
         claude)
             echo "${CLAUDE_MODEL:-haiku}"
@@ -134,7 +137,7 @@ confirm_cloud_engine() {
 
 # Centralized git diff retrieval
 get_git_diff() {
-    git diff "$@" $EXCLUDE_PATTERN
+    git diff $@ $EXCLUDE_PATTERN
 }
 
 # Abstraction for calling different AI engines
@@ -145,19 +148,19 @@ call_ai_engine() {
 
     # Verify command availability
     case "$engine" in
-        gemini) 
-            if ! command -v gemini >/dev/null 2>&1; then
-                echo "❌ Error: 'gemini' CLI not found. Please install it with 'npm install -g @google/gemini-cli'" >&2
-                exit 1
-            fi
-            gemini -m "$model" < "$prompt_file"
-            ;;
         ollama)
             if ! command -v ollama >/dev/null 2>&1; then
                 echo "❌ Error: 'ollama' CLI not found. Please download and install it from https://ollama.com/" >&2
                 exit 1
             fi
             ollama run "$model" < "$prompt_file"
+            ;;
+        gemini) 
+            if ! command -v gemini >/dev/null 2>&1; then
+                echo "❌ Error: 'gemini' CLI not found. Please install it with 'npm install -g @google/gemini-cli'" >&2
+                exit 1
+            fi
+            gemini -m "$model" < "$prompt_file"
             ;;
         codex)
             if ! command -v codex >/dev/null 2>&1; then
@@ -166,6 +169,14 @@ call_ai_engine() {
             fi
             # Use codex exec for non-interactive execution
             codex exec < "$prompt_file"
+            ;;
+        copilot)
+            if ! command -v copilot >/dev/null 2>&1; then
+                echo "❌ Error: 'copilot' CLI not found in PATH." >&2
+                exit 1
+            fi
+            # Use copilot prompt for non-interactive execution
+            copilot --model "$model" -p "$(cat "$prompt_file")"
             ;;
         claude)
             if ! command -v claude >/dev/null 2>&1; then
